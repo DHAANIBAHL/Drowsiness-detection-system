@@ -1,0 +1,29 @@
+# Analyse dataset contents and contribution in total count
+import os
+import pandas as pd
+
+Raw_DIR = r'C:\Users\HP\.cache\kagglehub\datasets\talhabhatti7262\drivers-drowsiness-detection\versions\1\Final\mrlEyes_2018_01'
+
+data = []
+
+for root, dirs, files in os.walk(Raw_DIR):
+    user = os.path.basename(root)
+    count = len([f for f in files if f.endswith('.png')])
+    
+    if user.startswith('s'):
+        data.append([user, count])
+
+df = pd.DataFrame(data, columns=["User", "Image_Count"])
+
+# sort
+df = df.sort_values(by="Image_Count", ascending=False).reset_index(drop=True)
+
+# add serial number
+df.index = df.index + 1
+df.index.name = "S.No"
+
+# add percentage
+total = df["Image_Count"].sum()
+df["% Contribution"] = (df["Image_Count"] / total * 100).round(2)
+
+df

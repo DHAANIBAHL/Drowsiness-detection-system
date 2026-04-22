@@ -1,5 +1,0 @@
-# Check path existance
-
-import os
-
-print(os.path.exists(Raw_DIR))
