@@ -1,0 +1,113 @@
+import os
+
+PREPARED = r'C:\Users\HP\.cache\kagglehub\datasets\talhabhatti7262\drivers-drowsiness-detection\versions\1\Final\PreparedData'
+
+for split in ['train', 'test']:
+    split_path = os.path.join(PREPARED, split)
+    print(f"\n{split}")
+    
+    for subfolder in os.listdir(split_path):
+        sub_path = os.path.join(split_path, subfolder)
+        if os.path.isdir(sub_path):
+            count = len([f for f in os.listdir(sub_path) if f.endswith('.png')])
+            print(f"{subfolder} → {count} .png files")
+        else:
+            print(f"{subfolder}")
+
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from PIL import Image
+import random
+import warnings
+warnings.filterwarnings('ignore')
+
+# STEP 1: Count & Balance 
+train_open   = len([f for f in os.listdir(TRAIN_OPEN)   if f.endswith('.png')])
+train_closed = len([f for f in os.listdir(TRAIN_CLOSED) if f.endswith('.png')])
+test_open    = len([f for f in os.listdir(TEST_OPEN)    if f.endswith('.png')])
+test_closed  = len([f for f in os.listdir(TEST_CLOSED)  if f.endswith('.png')])
+
+total_train = train_open + train_closed
+total_test  = test_open  + test_closed
+total       = total_train + total_test
+
+print("=" * 50)
+print("FULL DATASET REPORT")
+print("=" * 50)
+print(f"  TRAIN open   : {train_open:>7,}  ({train_open/total_train*100:.1f}%)")
+print(f"  TRAIN closed : {train_closed:>7,}  ({train_closed/total_train*100:.1f}%)")
+print(f"  TRAIN total  : {total_train:>7,}")
+print("-" * 50)
+print(f"  TEST  open   : {test_open:>7,}  ({test_open/total_test*100:.1f}%)")
+print(f"  TEST  closed : {test_closed:>7,}  ({test_closed/total_test*100:.1f}%)")
+print(f"  TEST  total  : {total_test:>7,}")
+print("-" * 50)
+print(f"  GRAND TOTAL  : {total:>7,}")
+print("=" * 50)
+
+# STEP 2: Visual Samples 
+def show_samples(folder, label, n=8):
+    files = random.sample(os.listdir(folder), n)
+    fig, axes = plt.subplots(2, 4, figsize=(14, 5))
+    fig.suptitle(f'Samples: {label}', fontsize=13, fontweight='bold')
+    for ax, fname in zip(axes.flatten(), files):
+        img = mpimg.imread(os.path.join(folder, fname))
+        ax.imshow(img, cmap='gray' if img.ndim == 2 else None)
+        ax.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+show_samples(TRAIN_OPEN,   'Open Eyes (Train)')
+show_samples(TRAIN_CLOSED, 'Closed Eyes (Train)')
+
+# STEP 3: Image Size Analysis 
+def analyze_sizes(folder, label, sample_limit=300):
+    files = random.sample(os.listdir(folder), sample_limit)
+    sizes = []
+    for f in files:
+        try:
+            img = Image.open(os.path.join(folder, f))
+            sizes.append(img.size)  # (width, height)
+        except:
+            pass
+    unique = set(sizes)
+    print(f"\n{label} — unique sizes found: {len(unique)}")
+    for s in sorted(unique, key=lambda x: -sizes.count(x))[:5]:
+        print(f"   {s[0]}×{s[1]} px → {sizes.count(s)} images")
+    return sizes
+
+analyze_sizes(TRAIN_OPEN,   'Train Open')
+analyze_sizes(TRAIN_CLOSED, 'Train Closed')
+
+# STEP 4: Pixel Intensity Distribution 
+def get_pixel_samples(folder, n=300):
+    files = random.sample(os.listdir(folder), n)
+    pixels = []
+    for f in files:
+        img = np.array(Image.open(os.path.join(folder, f)).convert('L'))
+        pixels.extend(img.flatten().tolist())
+    return pixels
+
+open_pixels   = get_pixel_samples(TRAIN_OPEN)
+closed_pixels = get_pixel_samples(TRAIN_CLOSED)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+fig.suptitle('Pixel Intensity Distribution', fontsize=13, fontweight='bold')
+
+axes[0].hist(open_pixels,   bins=50, color='steelblue', alpha=0.8)
+axes[0].set_title('Open Eye')
+axes[0].set_xlabel('Pixel Value (0=black → 255=white)')
+axes[0].set_ylabel('Frequency')
+
+axes[1].hist(closed_pixels, bins=50, color='tomato', alpha=0.8)
+axes[1].set_title('Closed Eye')
+axes[1].set_xlabel('Pixel Value (0=black → 255=white)')
+
+plt.tight_layout()
+plt.show()
+
+print(f"\nOpen Eye   — Mean: {np.mean(open_pixels):.1f}, Std: {np.std(open_pixels):.1f}")
+print(f"Closed Eye — Mean: {np.mean(closed_pixels):.1f}, Std: {np.std(closed_pixels):.1f}")
+
