@@ -1,0 +1,20 @@
+# Loading sample dataset
+def load_images_fast(folder, n=50, size=(64, 64)):
+    files = random.sample(os.listdir(folder), n)
+    images = []
+    for i, f in enumerate(files):
+        try:
+            img = Image.open(os.path.join(folder, f)).convert('L').resize(size)
+            images.append(np.array(img))
+        except:
+            pass
+        if (i + 1) % 10 == 0:
+            print(f"  loaded {i+1}/{n}")
+    return np.array(images)
+
+open_imgs = load_images_fast(TRAIN_OPEN, n=50)
+
+closed_imgs = load_images_fast(TRAIN_CLOSED, n=50)
+
+print(f"Done, open shape: {open_imgs.shape}")
+print(f"Closed shape: {closed_imgs.shape}")
