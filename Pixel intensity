@@ -1,0 +1,29 @@
+# Pixel intensity histogram
+def get_pixels(folder, n=50):
+    files = random.sample(os.listdir(folder), n)
+    pixels = []
+    for f in files:
+        img = np.array(Image.open(os.path.join(folder, f)).convert('L'))
+        pixels.extend(img.flatten().tolist())
+    return pixels
+
+open_pixels   = get_pixels(TRAIN_OPEN)
+closed_pixels = get_pixels(TRAIN_CLOSED)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+fig.suptitle('Pixel Intensity Distribution', fontsize=13, fontweight='bold')
+
+axes[0].hist(open_pixels,   bins=50, color='steelblue', alpha=0.8)
+axes[0].set_title('Open Eye')
+axes[0].set_xlabel('Pixel Value')
+axes[0].set_ylabel('Frequency')
+
+axes[1].hist(closed_pixels, bins=50, color='tomato', alpha=0.8)
+axes[1].set_title('Closed Eye')
+axes[1].set_xlabel('Pixel Value')
+
+plt.tight_layout()
+plt.show()
+
+print(f"Open   : mean={np.mean(open_pixels):.1f}, std={np.std(open_pixels):.1f}")
+print(f"Closed : mean={np.mean(closed_pixels):.1f}, std={np.std(closed_pixels):.1f}")
