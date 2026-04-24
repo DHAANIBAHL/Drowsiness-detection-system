@@ -1,0 +1,13 @@
+# Confirm paths
+paths = {
+    'TRAIN_OPEN'   : TRAIN_OPEN,
+    'TRAIN_CLOSED' : TRAIN_CLOSED,
+    'TEST_OPEN'    : TEST_OPEN,
+    'TEST_CLOSED'  : TEST_CLOSED,
+}
+
+for name, path in paths.items():
+    exists = os.path.exists(path)
+    count  = len([f for f in os.listdir(path) if f.endswith('.png')]) if exists else 0
+    status = "OK" if count > 0 else "MISSING"
+    print(f"  {status}  {name:15s} : {count:,} images")
