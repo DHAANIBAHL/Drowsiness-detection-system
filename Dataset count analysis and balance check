@@ -1,0 +1,23 @@
+# Dataset count and balance check
+train_open   = len([f for f in os.listdir(TRAIN_OPEN)   if f.endswith('.png')])
+train_closed = len([f for f in os.listdir(TRAIN_CLOSED) if f.endswith('.png')])
+test_open    = len([f for f in os.listdir(TEST_OPEN)    if f.endswith('.png')])
+test_closed  = len([f for f in os.listdir(TEST_CLOSED)  if f.endswith('.png')])
+
+total_train = train_open + train_closed
+total_test  = test_open  + test_closed
+total       = total_train + total_test
+
+print("=" * 50)
+print("          DATASET REPORT")
+print("=" * 50)
+print(f"  TRAIN open   : {train_open:>7,}  ({train_open/total_train*100:.1f}%)")
+print(f"  TRAIN closed : {train_closed:>7,}  ({train_closed/total_train*100:.1f}%)")
+print(f"  TRAIN total  : {total_train:>7,}")
+print("-" * 50)
+print(f"  TEST  open   : {test_open:>7,}  ({test_open/total_test*100:.1f}%)")
+print(f"  TEST  closed : {test_closed:>7,}  ({test_closed/total_test*100:.1f}%)")
+print(f"  TEST  total  : {total_test:>7,}")
+print("-" * 50)
+print(f"  GRAND TOTAL  : {total:>7,}")
+print("=" * 50)
