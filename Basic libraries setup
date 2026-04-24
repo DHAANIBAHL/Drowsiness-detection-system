@@ -1,0 +1,16 @@
+# Setup libraries
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import random
+import warnings
+warnings.filterwarnings('ignore')
+
+BASE         = r'C:\Users\HP\.cache\kagglehub\datasets\talhabhatti7262\drivers-drowsiness-detection\versions\1\Final\PreparedData'
+TRAIN_OPEN   = os.path.join(BASE, 'train', 'openEye')
+TRAIN_CLOSED = os.path.join(BASE, 'train', 'closeEye')
+TEST_OPEN    = os.path.join(BASE, 'test',  'openEye')
+TEST_CLOSED  = os.path.join(BASE, 'test',  'closeEye')
+
+print("Setup done, all paths ready.")
