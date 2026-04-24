@@ -1,0 +1,28 @@
+# User contribution analysis
+import os
+import pandas as pd
+
+Raw_DIR = r'C:\Users\HP\.cache\kagglehub\datasets\talhabhatti7262\drivers-drowsiness-detection\versions\1\Final\mrlEyes_2018_01'
+
+data = []
+for root, dirs, files in os.walk(Raw_DIR):
+    user  = os.path.basename(root)
+    count = len([f for f in files if f.endswith('.png')])
+    if user.startswith('s') and count > 0:
+        data.append([user, count])
+
+df = pd.DataFrame(data, columns=["User", "Image_Count"])
+df = df.sort_values(by="Image_Count", ascending=False).reset_index(drop=True)
+df.index = df.index + 1
+df.index.name = "S.No"
+
+total = df["Image_Count"].sum()
+df["% Contribution"] = (df["Image_Count"] / total * 100).round(2)
+
+print(f"Total users   : {len(df)}")
+print(f"Total images  : {total:,}")
+print(f"Avg per user  : {total // len(df):,}")
+print(f"Max per user  : {df['Image_Count'].max():,}")
+print(f"Min per user  : {df['Image_Count'].min():,}")
+print()
+df
