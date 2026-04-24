@@ -1,0 +1,17 @@
+# Image size analysis
+def analyze_sizes(folder, label, sample_limit=300):
+    files = random.sample(os.listdir(folder), sample_limit)
+    sizes = []
+    for f in files:
+        try:
+            img = Image.open(os.path.join(folder, f))
+            sizes.append(img.size)
+        except:
+            pass
+    unique = set(sizes)
+    print(f"{label} : {len(unique)} unique sizes found")
+    for s in sorted(unique, key=lambda x: -sizes.count(x))[:5]:
+        print(f"   {s[0]}x{s[1]} px : {sizes.count(s)} images")
+
+analyze_sizes(TRAIN_OPEN,   'Train Open')
+analyze_sizes(TRAIN_CLOSED, 'Train Closed')
