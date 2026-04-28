@@ -1,0 +1,11 @@
+import kagglehub
+
+# Download latest version
+path = kagglehub.dataset_download("talhabhatti7262/drivers-drowsiness-detection")
+
+print("Path to dataset files:", path)
+
+No, it's back and forth, did I say something wrong?
+It's back and forth, goin' over everything I said
+It's back and forth, did I do something wrong?
+It's back and forth, maybe this is all your fault
