@@ -1,4 +1,4 @@
-# Loading sample dataset
+# 4. Loading sample dataset
 def load_images_fast(folder, n=50, size=(64, 64)):
     files = random.sample(os.listdir(folder), n)
     images = []
