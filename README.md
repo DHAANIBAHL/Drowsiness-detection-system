@@ -1,6 +1,6 @@
-# 🚗 Driver Drowsiness Detection System
+# Driver Drowsiness Detection System
 
-## 📌 Overview
+## Overview
 
 This project focuses on building a **driver drowsiness detection system** using deep learning and computer vision techniques. The system analyzes eye images to determine whether a driver is **alert (eyes open)** or **drowsy (eyes closed)** and can be extended into a real-time alert mechanism.
 
@@ -8,7 +8,7 @@ Drowsy driving is a major cause of road accidents, and this project aims to cont
 
 ---
 
-## 📂 Dataset
+## Dataset
 
 The dataset used in this project is sourced from Kaggle and contains labeled eye images.
 
@@ -33,7 +33,7 @@ The dataset contains thousands of images collected from multiple individuals, pr
 
 ---
 
-## ⚙️ Data Preprocessing
+## Data Preprocessing
 
 * Images are loaded using `ImageDataGenerator`
 * Pixel values normalized from **[0, 255] → [0, 1]**
@@ -43,7 +43,7 @@ The dataset contains thousands of images collected from multiple individuals, pr
 
 ---
 
-## 🧠 Model
+## Model
 
 A Convolutional Neural Network (CNN) is used for binary classification:
 
@@ -54,7 +54,7 @@ A Convolutional Neural Network (CNN) is used for binary classification:
 
 ---
 
-## 🚀 How It Works
+## How It Works
 
 1. Images are loaded from directory structure
 2. Model learns patterns distinguishing open vs closed eyes
@@ -65,7 +65,7 @@ A Convolutional Neural Network (CNN) is used for binary classification:
 
 ---
 
-## 📊 Training
+## Training
 
 Example training setup:
 
@@ -79,17 +79,17 @@ model.fit(
 
 ---
 
-## 🎯 Future Improvements
+## Future Improvements
 
-* 🔴 Real-time webcam integration using OpenCV
-* 🔊 Alert system (alarm when drowsiness detected)
-* 📈 Model optimization (Transfer Learning – MobileNet/ResNet)
-* 🧪 Improve accuracy with data augmentation
-* 📊 Dashboard for monitoring driver behavior
+* Real-time webcam integration using OpenCV
+* Alert system (alarm when drowsiness detected)
+* Model optimization (Transfer Learning – MobileNet/ResNet)
+* Improve accuracy with data augmentation
+* Dashboard for monitoring driver behavior
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * Python
 * TensorFlow / Keras
@@ -98,7 +98,7 @@ model.fit(
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── dataset/
@@ -110,7 +110,7 @@ model.fit(
 
 ---
 
-## 💡 Key Learnings
+## Key Learnings
 
 * Handling image datasets without pandas
 * Using generators for memory-efficient training
@@ -119,12 +119,12 @@ model.fit(
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to fork this repository and improve the model or add new features!
 
 ---
 
-## 📜 License
+## License
 
 This project is for educational and research purposes.
