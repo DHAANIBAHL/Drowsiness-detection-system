@@ -1,0 +1,22 @@
+# 8. Color channel check
+sample_path = os.path.join(TRAIN_OPEN, os.listdir(TRAIN_OPEN)[0])
+sample_img  = Image.open(sample_path)
+img_array   = np.array(sample_img)
+
+print(f"Image mode  : {sample_img.mode}")
+print(f"Image size  : {sample_img.size}")
+print(f"Numpy shape : {img_array.shape}")
+
+if len(img_array.shape) == 2:
+    print("Channels    : 1, true grayscale")
+    print("Model input : (64, 64, 1)")
+elif len(img_array.shape) == 3:
+    c = img_array.shape[2]
+    if c == 3:
+        r, g, b = img_array[:,:,0], img_array[:,:,1], img_array[:,:,2]
+        if np.allclose(r, g) and np.allclose(g, b):
+            print("Channels    : 3 but R=G=B, convert to grayscale")
+            print("Model input : (64, 64, 1)")
+        else:
+            print("Channels    : 3, true color")
+            print("Model input : (64, 64, 3)")
