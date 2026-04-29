@@ -1,0 +1,26 @@
+# 13. Difference map
+difference = mean_open.astype(float) - mean_closed.astype(float)
+
+fig, axes = plt.subplots(1, 3, figsize=(13, 4))
+fig.suptitle('Inter-Class Difference Map', fontsize=13, fontweight='bold')
+
+axes[0].imshow(mean_open,   cmap='gray', vmin=0, vmax=255)
+axes[0].set_title('Mean Open Eye')
+axes[0].axis('off')
+
+axes[1].imshow(mean_closed, cmap='gray', vmin=0, vmax=255)
+axes[1].set_title('Mean Closed Eye')
+axes[1].axis('off')
+
+im = axes[2].imshow(difference, cmap='RdBu', vmin=-60, vmax=60)
+axes[2].set_title('Difference, Open minus Closed')
+axes[2].axis('off')
+plt.colorbar(im, ax=axes[2], fraction=0.046)
+
+plt.tight_layout()
+plt.show()
+
+print(f"Max positive, open brighter  : +{difference.max():.1f}")
+print(f"Max negative, closed brighter: {difference.min():.1f}")
+print(f"Mean absolute difference     :  {np.abs(difference).mean():.1f}")
+print("\nEDA complete.")
