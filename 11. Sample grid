@@ -1,0 +1,18 @@
+# 11. Sample grid
+fig, axes = plt.subplots(4, 10, figsize=(20, 8))
+fig.suptitle('Sample Grid, Open (top 2 rows) vs Closed (bottom 2 rows)',
+             fontsize=13, fontweight='bold')
+
+for j in range(10):
+    for row, (imgs, offset) in enumerate([(open_imgs, 0), (open_imgs, 1),
+                                           (closed_imgs, 2), (closed_imgs, 3)]):
+        idx = (offset % 2) * 10 + j
+        if idx < len(imgs):
+            axes[offset, j].imshow(imgs[idx], cmap='gray')
+        axes[offset, j].axis('off')
+
+axes[0, 4].set_title('OPEN',   color='steelblue', fontweight='bold')
+axes[2, 4].set_title('CLOSED', color='tomato',    fontweight='bold')
+
+plt.tight_layout()
+plt.show()
